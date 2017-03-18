@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 public class Main extends JPanel {
 	
+	private static final long serialVersionUID = 4190408071671335505L; // to get rid of the warning in eclipse
 	private static final int frameX = 1280, frameY = 720; // width and height for the JFrame
 	private static final String title = "Galton Board Simulation"; // title for the JFrame
 	private int n, nTodo; // number of balls and balls left to be drawn
@@ -62,17 +63,17 @@ public class Main extends JPanel {
 		
 		frame.setSize(frameX, frameY); // choose frame size
 		frame.setResizable(false); // fixed frame size
-		frame.setLocationRelativeTo(null); // frame starts in the middle of screen
+//		frame.setLocationRelativeTo(null); // frame starts in the middle of screen
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // frame terminates on close
 		frame.setVisible(false);
 		
 		skipLine();
-		while(true) { // loops forever, until window is closed
-			frame.setAlwaysOnTop(false); // allows frame to be hidden
+		while(input >= 0) { // loops forever, until window is closed
 			System.out.print("Enter # of balls: "); // prompt the user to enter the number of balls to be dropped
 			input = in.nextInt(); // stores next integer entered by the user
 			if (input <= 0) { // check if the user entered a number less than 1
 				System.out.println("<Enter only positive integers> \n\n");
+				input = 0;
 				continue; // skips everything below this until the loop condition
 			}
 			simulation = new Main(input, 25); // create instance of simulation (number of balls, number of columns)
@@ -80,6 +81,7 @@ public class Main extends JPanel {
 			frame.setFocusable(true); // make frame main focus
 			frame.setVisible(true); // frame appears on screen
 			frame.setAlwaysOnTop(true); // shows frame always on top
+			frame.setAlwaysOnTop(false);
 			
 			long runtime = System.nanoTime(); // get the run times
 			System.out.print("Simulation running ..."); // tell the user that the simulation is starting
@@ -92,5 +94,6 @@ public class Main extends JPanel {
 			runtime = System.nanoTime() - runtime; // get runtime by subtracting current time - previously saved time
 			System.out.println(" done. \n" + "Runtime: " + (runtime/1000000) + "ms \n\n"); // tell the user simulation is done and output runtime
 		}
+		in.close();
 	}
 }
