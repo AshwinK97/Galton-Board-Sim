@@ -1,8 +1,10 @@
 package galtonBoard;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -41,13 +43,22 @@ public class Main extends JPanel {
 	
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
-		g2d.setColor(Color.BLACK);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+		// draw background
+		g2d.setColor(Color.black);
 		g2d.fillRect(0,  0, frameX, frameY);
+		// draw columns
 		for(int i=0; i<columns.length; i++) {
 			g2d.setColor(Color.white);
 			g2d.drawRect(i + i*(frameX/columns.length) - 10, 0, frameX/columns.length, frameY); // draw outlines of columns
 			g2d.fillRect(i + i*(frameX/columns.length) - 10, 0, frameX/columns.length, (frameY - 35) - columns[i]/(3*(n/10000)*(int)(Math.log10(columns.length))+1)); // draws columns in reverse
 		}
+		// draw counter
+		g2d.setColor(Color.black);
+		g2d.drawString("# of balls drawn: ", frameX - 150, 20);
+		g2d.drawString("" + (n - nTodo) + "/" + n, frameX - 150, 40);
 	}
 	
 	public static void skipLine() {
@@ -57,31 +68,26 @@ public class Main extends JPanel {
 	
 	public static void main(String args[]) {
 		Scanner in = new Scanner(System.in);
-		int input = 0;
+		int input = 1;
 		JFrame frame = new JFrame(title); // create new frame with title
 		Main simulation;
 		
 		frame.setSize(frameX, frameY); // choose frame size
 		frame.setResizable(false); // fixed frame size
-//		frame.setLocationRelativeTo(null); // frame starts in the middle of screen
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // frame terminates on close
 		frame.setVisible(false);
 		
 		skipLine();
-		while(input >= 0) { // loops forever, until window is closed
+		while(input > 0) { // loops forever, until window is closed
 			System.out.print("Enter # of balls: "); // prompt the user to enter the number of balls to be dropped
 			input = in.nextInt(); // stores next integer entered by the user
-			if (input <= 0) { // check if the user entered a number less than 1
-				System.out.println("<Enter only positive integers> \n\n");
-				input = 0;
+			if (input < 1) // if invalid input, exit
 				continue; // skips everything below this until the loop condition
-			}
 			simulation = new Main(input, 25); // create instance of simulation (number of balls, number of columns)
 			frame.add(simulation); //add instance of simulation to frame
 			frame.setFocusable(true); // make frame main focus
 			frame.setVisible(true); // frame appears on screen
 			frame.setAlwaysOnTop(true); // shows frame always on top
-			frame.setAlwaysOnTop(false);
 			
 			long runtime = System.nanoTime(); // get the run times
 			System.out.print("Simulation running ..."); // tell the user that the simulation is starting
@@ -94,6 +100,8 @@ public class Main extends JPanel {
 			runtime = System.nanoTime() - runtime; // get runtime by subtracting current time - previously saved time
 			System.out.println(" done. \n" + "Runtime: " + (runtime/1000000) + "ms \n\n"); // tell the user simulation is done and output runtime
 		}
+		System.out.println("Exiting...");
 		in.close();
+		System.exit(0);
 	}
 }
