@@ -1,7 +1,4 @@
-package galtonBoard;
-
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -95,7 +92,7 @@ public class Main extends JPanel {
 				simulation.placeBall(); // places a single ball on the board
 				simulation.repaint(); // repaints the board
 				if (simulation.nTodo <= 0) // if there are no more balls to place
-					simRunning = false; // change simRunning to false, loop will exit
+					simRunning = false; // change simRunning to false, loop will exit on next iteration
 			}
 			runtime = System.nanoTime() - runtime; // get runtime by subtracting current time - previously saved time
 			System.out.println(" done. \n" + "Runtime: " + (runtime/1000000) + "ms \n\n"); // tell the user simulation is done and output runtime
