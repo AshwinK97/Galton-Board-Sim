@@ -7,3 +7,10 @@ We run an algorithm that initializes a value equal to half of the length of the 
 
 Upon running Main.java, a prompt will appear "Enter # of balls: ", simply enter the number of balls you want to simulate on the Galton board.
   
+**Contributors**
+
+<ul>
+	<li>Jasindan Rasalingam - 100584595</li>
+	<li>Darron Singh - 100584624</li>
+	<li>Ashwin Kamalakannan - 100584423</li>
+</ul>
